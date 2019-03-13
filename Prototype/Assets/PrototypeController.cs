@@ -56,6 +56,18 @@ public class PrototypeController : MonoBehaviour
 			}
 			else
 			{
+				if ((hit.Trackable is DetectedPlane){
+					DetectedPlane plane=(DetectedPlane)hit.Trackable;
+					if (plane.PlaneType == DetectedPlaneType.Vertical)
+					{
+						//incollare qui il resto
+					}
+					else
+					{
+						Handheld.Vibrate();
+					}
+					
+				}
 				var andyObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
 				andyObject.transform.position = new Vector3(hit.Pose.position.x + 0.06f, hit.Pose.position.y + 0.06f, hit.Pose.position.z + 0.06f);
 				// Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
