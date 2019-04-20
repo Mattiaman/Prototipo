@@ -1,0 +1,2 @@
+C:\Users\Mettiu\Documents\GitHub\Prototipo\Prototype\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
+C:\Users\Mettiu\Documents\GitHub\Prototipo\Prototype\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache

@@ -15,7 +15,7 @@ public class PrototypeController : MonoBehaviour
 
 	public GameObject prefab;
 
-	private const float k_ModelRotation = 180.0f;
+	private const float k_ModelRotation = 270.0f;
 
 	public void Update()
 	{
@@ -56,11 +56,28 @@ public class PrototypeController : MonoBehaviour
 			}
 			else
 			{
-				if ((hit.Trackable is DetectedPlane){
+				if ((hit.Trackable is DetectedPlane)){
 					DetectedPlane plane=(DetectedPlane)hit.Trackable;
 					if (plane.PlaneType == DetectedPlaneType.Vertical)
 					{
-						//incollare qui il resto
+						var andyObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
+						andyObject.transform.position = new Vector3(hit.Pose.position.x + 0.06f, hit.Pose.position.y + 0.06f, hit.Pose.position.z + 0.06f);
+						// Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
+						//andyObject.transform.localEulerAngles = new Vector3(0, plane.CenterPose.rotation.y+180, 0);
+						var placedObjectForward = Vector3.up;
+						var placedObjectUp = plane.CenterPose.rotation * Vector3.up;
+						Vector3 normal = plane.CenterPose.rotation * Vector3.up;
+						//andyObject.transform.Rotate(k_ModelRotation, 0 , k_ModelRotation);
+						andyObject.transform.rotation = Quaternion.LookRotation(placedObjectForward, placedObjectUp);
+						andyObject.transform.Rotate(-90, 0, 0);
+						//andyObject.transform.localEulerAngles = new Vector3(andyObject.transform.rotation.x, 0, andyObject.transform.rotation.z);
+
+						// Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
+						// world evolves.
+						var anchor = hit.Trackable.CreateAnchor(hit.Pose);
+
+						// Make Andy model a child of the anchor.
+						andyObject.transform.parent = anchor.transform;
 					}
 					else
 					{
@@ -68,17 +85,7 @@ public class PrototypeController : MonoBehaviour
 					}
 					
 				}
-				var andyObject = Instantiate(prefab, hit.Pose.position, hit.Pose.rotation);
-				andyObject.transform.position = new Vector3(hit.Pose.position.x + 0.06f, hit.Pose.position.y + 0.06f, hit.Pose.position.z + 0.06f);
-				// Compensate for the hitPose rotation facing away from the raycast (i.e. camera).
-				andyObject.transform.Rotate(k_ModelRotation / 2, 0, k_ModelRotation);
-
-				// Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
-				// world evolves.
-				var anchor = hit.Trackable.CreateAnchor(hit.Pose);
-
-				// Make Andy model a child of the anchor.
-				andyObject.transform.parent = anchor.transform;
+				
 			}
 		}
 	}
