@@ -69,7 +69,8 @@ public class PrototypeController : MonoBehaviour
 						Vector3 normal = plane.CenterPose.rotation * Vector3.up;
 						//andyObject.transform.Rotate(k_ModelRotation, 0 , k_ModelRotation);
 						andyObject.transform.rotation = Quaternion.LookRotation(placedObjectForward, placedObjectUp);
-						andyObject.transform.Rotate(-90, 0, 0);
+						andyObject.transform.Rotate(-90, 0, 180);
+                        andyObject.transform.Translate(Vector3.forward*0.05f);
 						//andyObject.transform.localEulerAngles = new Vector3(andyObject.transform.rotation.x, 0, andyObject.transform.rotation.z);
 
 						// Create an anchor to allow ARCore to track the hitpoint as understanding of the physical
